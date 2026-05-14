@@ -307,7 +307,7 @@ class: efficiency
 }
 </style>
 
-# A few square feet of bus or bike beats a whole lane of cars
+# Bus / Bike lanes and transit are higher capacity
 
 <div class="lede">
 Lincoln Tunnel XBL (1 bus lane) carries ≈ 5× the 4 car lanes combined · 2,000 bikes through one intersection in 5 min
@@ -320,7 +320,7 @@ Lincoln Tunnel XBL (1 bus lane) carries ≈ 5× the 4 car lanes combined · 2,00
     <span><strong>Hudson River AM peak flows</strong> — NJ → NY, all modes</span>
     <a href="https://hbt.hccs.dev" target="_blank">hbt.hccs.dev</a>
   </div>
-  <iframe src="https://hbt.hccs.dev" loading="lazy"></iframe>
+  <iframe src="https://hbt.hccs.dev/?fs=1" loading="lazy"></iframe>
 </div>
 
 <div class="pane">
@@ -338,102 +338,6 @@ SPEAKER NOTES — mode efficiency
 - Left: HBT (Hub Bound Travel) flow map — passengers per mode (PATH, NJT bus, ferry, Lincoln XBL, GWB, etc.) entering Manhattan's CBD in AM peak.
 - Right: drone footage of bike commute — ~2,000 riders through one intersection in 5 min, vastly outperforming any car lane.
 - The mode-efficiency story isn't theoretical; the data is already in the public record and the pictures are already on the ground.
--->
-
----
-class: timeline
----
-
-<style>
-.slidev-layout.timeline {
-  padding: 1.3rem 2rem 1rem;
-  h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
-  .lede {
-    font-size: 1rem;
-    font-weight: 500;
-    opacity: 0.95;
-    margin-bottom: 0.8rem;
-  }
-  .cols {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 1.5rem;
-  }
-  .col h3 {
-    font-size: 1rem;
-    margin: 0 0 0.4rem;
-    border-bottom: 1px solid rgba(255,255,255,0.25);
-    padding-bottom: 0.2rem;
-  }
-  .col ul {
-    margin: 0; padding-left: 1.1rem;
-    li { font-size: 0.78rem; line-height: 1.55; margin: 0.05rem 0; }
-  }
-  .col .yr {
-    font-variant-numeric: tabular-nums;
-    color: var(--hccs-accent);
-    font-weight: 600;
-  }
-  .col .age {
-    opacity: 0.55;
-    font-size: 0.85em;
-  }
-  .pull {
-    margin-top: 0.9rem;
-    font-size: 0.9rem;
-    text-align: center;
-    opacity: 0.95;
-    em { color: var(--hccs-accent); font-style: normal; font-weight: 600; }
-  }
-}
-</style>
-
-# We haven't built much new transit in 60+ years
-
-<div class="lede">
-…and yet a few square feet of bus, bike, or rail moves more people than a whole lane of cars.
-</div>
-
-<div class="cols">
-<div class="col">
-
-### Major NJ ↔ NY transit / active infra
-- <span class="yr">1908</span> Hudson Tubes (now PATH) <span class="age">— 118 yrs</span>
-- <span class="yr">1910</span> Penn Station / North River tunnels <span class="age">— 116 yrs</span>
-- <span class="yr">1937</span> Lincoln Tunnel <span class="age">— 89 yrs</span> *(XBL bus lane: 1970)*
-- <span class="yr">2000-06</span> HBLR <span class="age">— 20-26 yrs</span>
-- <span class="yr">…</span> *(barely anything since)*
-
-### Auto / freight
-- <span class="yr">1927</span> Holland Tunnel <span class="age">— 99 yrs</span>
-- <span class="yr">1931</span> GWB · Bayonne · Goethals <span class="age">— 95 yrs</span>
-- <span class="yr">1951</span> NJ Turnpike <span class="age">— 75 yrs</span>
-- <span class="yr">1956-71</span> I-78 · I-80 · I-280 · I-287
-- <span class="yr">2027?</span> $11B Turnpike widening *(opposed)*
-
-</div>
-<div class="col">
-
-### …yet today
-- **Lincoln Tunnel XBL** (1 bus lane) ≈ **5×** the 4 car lanes combined
-- **Grove St PATH** moves ≈ ½M trips/yr through one plaza
-- **2,000 bikes** through one intersection in **5 min** ([video](https://ht.hccs.dev))
-- **Holland Tunnel:** 99% cars · 1.2 ppl/car
-- **NJ Turnpike:** mostly single-occupancy
-
-<div class="pull">
-The most efficient transportation infrastructure in NJ is <em>generations old</em>.
-The cheapest improvements are <em>repurposing road space</em>: bus lanes, bike lanes, sidewalks.
-</div>
-
-</div>
-</div>
-
-<!--
-SPEAKER NOTES — infra timeline
-- The "transit gap" is decades; the "highway gap" isn't much shorter — but we're about to spend $11B widening Turnpike.
-- Show ht.mp4 if asked: ~2000 bikes in 5 mins, one direction, one bridge.
-- Lex Ave vs Katy Freeway comp: same idea — 1 corridor moves Nx the people.
 -->
 
 ---
