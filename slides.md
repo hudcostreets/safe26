@@ -15,6 +15,15 @@ qr:
   position: br
   size: 72
   uppercase: true
+seoMeta:
+  ogTitle: "NJ Crash Data"
+  ogDescription: "Access, Analysis & Application — NJBWC SAFE webinar, 5/14/26"
+  ogImage: https://safe26.hccs.dev/og.jpg
+  ogUrl: https://safe26.hccs.dev
+# Per-slide OG shells (via `publish.baseUrl`) hang on slide 5's iframe/video
+# during build. Deck-level `og:image` from seoMeta above is enough for the
+# common "share the deck" case; per-slide social previews can come back when
+# we work around the network-idle issue (skipOg per problematic slide).
 layout: cover
 ---
 
