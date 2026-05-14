@@ -20,10 +20,9 @@ seoMeta:
   ogDescription: "Access, Analysis & Application — NJBWC SAFE webinar, 5/14/26"
   ogImage: https://safe26.hccs.dev/og.jpg
   ogUrl: https://safe26.hccs.dev
-# Per-slide OG shells (via `publish.baseUrl`) hang on slide 5's iframe/video
-# during build. Deck-level `og:image` from seoMeta above is enough for the
-# common "share the deck" case; per-slide social previews can come back when
-# we work around the network-idle issue (skipOg per problematic slide).
+publish:
+  baseUrl: https://safe26.hccs.dev
+  canonicalForm: n
 layout: cover
 ---
 
@@ -256,6 +255,15 @@ SPEAKER NOTES — running counters
 
 ---
 class: efficiency
+# Skip OG-shell generation: external iframe (hbt.hccs.dev) keeps the page's
+# `load` event waiting longer than the shell-gen timeout. Per-slide social
+# preview for this one slide isn't worth the build flake; deck-level OG
+# (seoMeta above) covers the canonical share case.
+skipOg: true
+# Disable adjacent-slide preloading — Slidev preloads current ± 1, so without
+# this, slides 4 + 6 would also mount this slide's iframe and never fire
+# `load`, hanging OG generation for them too.
+preload: false
 ---
 
 <style>
@@ -329,7 +337,7 @@ Lincoln Tunnel XBL (1 bus lane) carries ≈ 5× the 4 car lanes combined · 2,00
     <span><strong>Hudson River AM peak flows</strong> — NJ → NY, all modes</span>
     <a href="https://hbt.hccs.dev" target="_blank">hbt.hccs.dev</a>
   </div>
-  <iframe src="https://hbt.hccs.dev/?fs=1" loading="lazy"></iframe>
+  <iframe v-if="$slidev.nav.currentSlideNo === $slidev.nav.currentRoute?.no" src="https://hbt.hccs.dev/?fs=1" loading="lazy"></iframe>
 </div>
 
 <div class="pane">
