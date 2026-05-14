@@ -1,0 +1,9 @@
+# Slidev drag coords — auto-managed by the dev server.
+# Tracked in git by default; add to .gitignore if you'd rather keep positions personal.
+# Top-level keys are slide numbers (1-based); values are dragId → posStr.
+"2":
+  bp: 543,21,417,144
+  blr: 517,151,260,172,0,100,17,12,12,11
+  bb: 747,162,237,158,0,100,11,10,12,9
+  vd: 487,314,300,215,0,100,2,18,4,19
+  vz: 744,290,216,154,0,100,18,0,22,0
