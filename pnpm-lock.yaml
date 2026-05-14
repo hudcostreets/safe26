@@ -303,9 +303,6 @@ importers:
       '@slidev/cli':
         specifier: workspace:*
         version: link:../../slidev/packages/slidev
-      slidev-theme-hccs:
-        specifier: workspace:*
-        version: link:../slidev-theme
       vue:
         specifier: ^3.5.13
         version: 3.5.34(typescript@5.9.3)

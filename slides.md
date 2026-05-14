@@ -1,5 +1,5 @@
 ---
-theme: hccs
+theme: ./theme
 title: NJ Crash Data
 info: NJBWC SAFE webinar — Ryan Williams, Hudson County Complete Streets, 5/14/26
 selectable: true
@@ -15,7 +15,6 @@ qr:
   position: br
   size: 72
   uppercase: true
-  skipSlides: [1]
 layout: cover
 ---
 
@@ -261,7 +260,9 @@ class: efficiency
   }
   .panes {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* HBT plot is wide; video is wide-but-shorter — give the plot more
+     * horizontal room and let the video letterbox within its narrower pane. */
+    grid-template-columns: 1.6fr 1fr;
     gap: 0.8rem;
     height: calc(100% - 4.5rem);
   }
@@ -273,6 +274,7 @@ class: efficiency
     display: flex;
     flex-direction: column;
     position: relative;
+    min-height: 0;
   }
   .pane .cap {
     font-size: 0.72rem;
@@ -283,14 +285,24 @@ class: efficiency
     justify-content: space-between;
     align-items: center;
     line-height: 1.2;
+    flex: 0 0 auto;
   }
   .pane .cap a { color: var(--hccs-accent); }
-  .pane iframe, .pane video {
-    flex: 1;
+  .pane iframe {
+    flex: 1 1 0;
     width: 100%;
     border: 0;
     background: black;
-    object-fit: cover;
+    min-height: 0;
+  }
+  .pane video {
+    flex: 1 1 0;
+    width: 100%;
+    min-height: 0;
+    border: 0;
+    background: black;
+    /* Letterbox inside the pane — never crop or overflow. */
+    object-fit: contain;
   }
 }
 </style>
@@ -313,10 +325,10 @@ Lincoln Tunnel XBL (1 bus lane) carries ≈ 5× the 4 car lanes combined · 2,00
 
 <div class="pane">
   <div class="cap">
-    <span><strong>2,000 bikes in 5 minutes</strong> — one bridge, one lane</span>
+    <span><strong>2,000 bikes in 5 minutes</strong>, 1-2 lanes</span>
     <a href="https://ht.hccs.dev" target="_blank">ht.hccs.dev</a>
   </div>
-  <video src="/wt.mp4" autoplay loop muted playsinline></video>
+  <video src="/wt.mp4" controls preload="metadata" muted playsinline></video>
 </div>
 
 </div>
@@ -428,88 +440,13 @@ SPEAKER NOTES — infra timeline
 layout: section
 ---
 
-# crashes.hudcostreets.org
+# Demo: [crashes.hudcostreets.org]
 
-The public crash data + maps platform.
+Public crash data + maps platform.
+
 Daily fatalities · annual all-crashes · cleaned · queryable · open-source.
 
----
-class: plots
-dragPos:
-  hom: 24,80,470,310
-  njsp: 510,80,470,310
-  ped: 24,410,470,140
-  pct: 510,410,470,140
----
-
-<style>
-.slidev-layout.plots {
-  & + footer { display: none }
-  padding: 0.8rem 1.2rem 1rem;
-  h1 { font-size: 1.3rem; margin-bottom: 0.2rem; }
-  .sub { font-size: 0.75rem; opacity: 0.75; margin-bottom: 0.4rem; }
-  img {
-    width: 100%; height: 100%; object-fit: contain;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 4px;
-  }
-}
-</style>
-
-# NJ traffic deaths — comparable to homicides, less coverage
-
-<div class="sub">Crashes vs homicides, per-year trends — every plot is interactive on the site</div>
-
-<div v-drag="'hom'"><a target="_blank" href="https://crashes.hudcostreets.org/#vs-homicides"><img src="/hom.png"/></a></div>
-<div v-drag="'njsp'"><a target="_blank" href="https://crashes.hudcostreets.org/#per-year"><img src="/njsp.png"/></a></div>
-<div v-drag="'ped'"><a target="_blank" href="https://crashes.hudcostreets.org/#hom-cmp"><img src="/hom-cmp.png"/></a></div>
-<div v-drag="'pct'"><a target="_blank" href="https://crashes.hudcostreets.org"><img src="/hc-vs-homs.png"/></a></div>
-
-<!--
-SPEAKER NOTES — plots
-- Vs. homicides: NJ fatalities ~600/yr, homicides ~250/yr. Walk through.
-- Per-year: fatalities flat, injuries trending down — partly reporting changes, partly true. Drill in to types.
-- Ped focus: pedestrians ~25% of deaths but ~15% of injuries — disproportionately killed.
-- Drill: HC, county, muni — same data, finer granularity.
--->
-
----
-class: map-slide
----
-
-<style>
-.slidev-layout.map-slide {
-  & + footer { display: none }
-  padding: 0;
-  position: relative;
-  img.map {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%; object-fit: cover;
-  }
-  .caption {
-    position: absolute;
-    bottom: 1rem; left: 1rem;
-    background: rgba(0, 70, 35, 0.92);
-    color: white;
-    padding: 0.6rem 1rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    max-width: 60%;
-    line-height: 1.4;
-  }
-  .caption strong { color: var(--hccs-accent); }
-  .caption a { color: white; text-decoration: underline; }
-}
-</style>
-
-<a target="_blank" href="https://crashes.hudcostreets.org/map/hudson"><img class="map" src="/hc-map.png" /></a>
-
-<div class="caption">
-<strong>Hudson County crash map.</strong>
-Every fatal/serious crash since '01 — click any dot to see the report.
-Drill to county, municipality, or street.
-→ <a href="https://crashes.hudcostreets.org/map/hudson" target="_blank">crashes.hudcostreets.org/map/hudson</a>
-</div>
+[crashes.hudcostreets.org]: https://crashes.hudcostreets.org
 
 ---
 class: data-access
@@ -552,14 +489,14 @@ class: data-access
   <tbody>
     <tr><td class="agency">NJSP</td><td>Fatal crashes</td><td>Daily</td><td>1d – 3mos</td><td>✅ Stable</td></tr>
     <tr><td class="agency">NJDOT</td><td>All crashes (NJTR-1)</td><td>Annually</td><td>2–3 yrs</td><td>📋 Manual cleanup</td></tr>
-    <tr><td class="agency">AASHTOWare</td><td>All crashes</td><td>~Live</td><td>days–months</td><td class="win">🎉 NEW: '24 + '25 unlocked</td></tr>
+    <tr><td class="agency">AASHTOWare</td><td>All crashes</td><td>~Live</td><td>days–months</td><td class="win">🎉 NEW: '24 + '25</td></tr>
   </tbody>
 </table>
 
 <div class="leap">
 <strong>The AASHTOWare portal is a major leap forward.</strong>
 Years of data that historically took 2–3 yrs to publish are now available days-to-months after the fact.
-Huge thanks to Frank, Joe, and the team at NJDOT / DHTS.
+Thanks Frank, Joe, and team at NJDOT / DHTS.
 </div>
 
 <!--
@@ -607,7 +544,7 @@ dragPos:
 **Agentic coding has changed the equation:**
 - 1 dev + Claude Code ≈ team of 5
 - HCCS Slack has 10–20 SWEs ready to pitch in
-- e.g. Jordan Leahy → [reportjerseycity.com](https://reportjerseycity.com)
+- e.g. [reportjerseycity.com](https://reportjerseycity.com)
 
 **The ask:**
 - Publish raw data → enable citizen science
@@ -617,7 +554,8 @@ dragPos:
 </div>
 
 <div v-drag="'gh'"><img src="/agentic-gh-commits.png"/></div>
-<div v-drag="'pc'"><img src="/agentic-personal-commits.png"/></div>
+
+[//]: # (<div v-drag="'pc'"><img src="/agentic-personal-commits.png"/></div>)
 
 <!--
 SPEAKER NOTES
@@ -673,15 +611,11 @@ class: applications
 
 ### What's next
 - **Real-time data → real-time response.** When AASHTO data lands days after a crash, advocates can show up at the next council meeting.
-- **Anecdote → data.** Right now interventions often follow *one* tragic crash. Goal: spot patterns before tragedy.
+- **Anecdata → data.** Right now interventions often follow *one* tragic crash. Goal: spot patterns before tragedy.
 - **Predictive / preventative.** Routine corridor scoring; safety system planning.
 - **Public-facing dashboards** for every NJ muni.
 
 </div>
-</div>
-
-<div class="honest">
-Honest take: the direct impact is just starting. The data + tools are finally good enough that the next 1–2 years should be much bigger than the last 10.
 </div>
 
 ---

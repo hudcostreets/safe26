@@ -11,7 +11,6 @@
     "@iconify-json/logos": "^1.2.4",
     "@iconify-json/mdi": "^1.2.3",
     "@slidev/cli": "workspace:*",
-    "slidev-theme-hccs": "workspace:*",
     "vue": "^3.5.13"
   }
 }
