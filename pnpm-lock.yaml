@@ -303,6 +303,9 @@ importers:
       '@slidev/cli':
         specifier: workspace:*
         version: link:../../slidev/packages/slidev
+      slidev-theme-hccs:
+        specifier: github:hudcostreets/slidev-theme#a49893e
+        version: https://codeload.github.com/hudcostreets/slidev-theme/tar.gz/a49893e
       vue:
         specifier: ^3.5.13
         version: 3.5.34(typescript@5.9.3)
@@ -3137,6 +3140,11 @@ packages:
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
+
+  slidev-theme-hccs@https://codeload.github.com/hudcostreets/slidev-theme/tar.gz/a49893e:
+    resolution: {tarball: https://codeload.github.com/hudcostreets/slidev-theme/tar.gz/a49893e}
+    version: 0.1.0
+    engines: {node: '>=18.0.0', slidev: '>=0.50.0'}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -6265,6 +6273,10 @@ snapshots:
       totalist: 3.0.1
 
   sisteransi@1.0.5: {}
+
+  slidev-theme-hccs@https://codeload.github.com/hudcostreets/slidev-theme/tar.gz/a49893e:
+    dependencies:
+      '@fontsource/inter': 5.2.8
 
   source-map-js@1.2.1: {}
 

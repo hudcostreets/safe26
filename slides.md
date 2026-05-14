@@ -1,5 +1,5 @@
 ---
-theme: ./theme
+theme: hccs
 title: NJ Crash Data
 info: NJBWC SAFE webinar — Ryan Williams, Hudson County Complete Streets, 5/14/26
 selectable: true
