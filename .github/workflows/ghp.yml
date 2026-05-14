@@ -8,11 +8,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # pnpm-workspace.yaml references `../../slidev/packages/*` (matches the
+      # local layout where safe26 lives at `~/c/hccs/safe26` and the fork at
+      # `~/c/slidev`). Clone the fork to the same relative path under the
+      # runner work dir so the workspace resolves identically.
+      - name: Clone slidev fork
+        run: git clone --depth 1 https://github.com/Open-Athena/slidev.git ../../slidev
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
       - run: pnpm i --no-frozen-lockfile
-      - run: npm run build
+      - run: pnpm build
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
