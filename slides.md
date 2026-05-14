@@ -344,13 +344,11 @@ SPEAKER NOTES — mode efficiency
 layout: section
 ---
 
-# Demo: [crashes.hudcostreets.org]
+# Demo: [crashes.hudcostreets.org](https://crashes.hudcostreets.org)
 
 Public crash data + maps platform.
 
 Daily fatalities · annual all-crashes · cleaned · queryable · open-source.
-
-[crashes.hudcostreets.org]: https://crashes.hudcostreets.org
 
 ---
 class: data-access
