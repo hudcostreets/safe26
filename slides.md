@@ -110,12 +110,12 @@ Plus [JFK Blvd East][JFK Blvd East], + more → [hudcostreets.org][hudcostreets.
 
 ---
 layout: section
-description: 'The big picture: cars are an economic, public-health, and transportation disaster in NJ.'
+description: 'The big picture: cars are an economic, public health, and transportation disaster in NJ.'
 ---
 
 # Why crash data matters
 
-Big picture: economic, public-health, transportation disasters
+Big picture: economic, public health, transportation disasters
 
 ---
 class: counters
@@ -124,39 +124,61 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
 
 <style>
 .slidev-layout.counters {
-  padding: 1.2rem 2rem 0.6rem;
-  h1 { font-size: 1.5rem; margin-bottom: 0.4rem; }
+  padding: 1.2rem 2rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  h1 {
+    font-size: 2.4rem;
+    font-weight: 600;
+    line-height: 1.1;
+    margin: 0 0 0.6rem;
+    text-align: center;
+  }
   .grid {
+    flex: 1 1 auto;
     display: grid;
-    grid-template-columns: 1.7fr 1fr;
-    gap: 0.8rem 1.6rem;
-    margin-top: 0.6rem;
-    align-items: start;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 1rem 2rem;
+    align-items: stretch;
   }
   .col.big {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    justify-content: space-evenly;
   }
+  /* Right column: two subgroups, separated by space-around so the top pair
+   * floats down from the slide-top edge, and the bottom group (KSI header
+   * + 4 counters) stays tightly bonded. Bottom padding reserves the
+   * lower-right corner for the SlideQR + URL/logo footer. */
   .col.small {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-bottom: 4.5rem;
+  }
+  .col.small .top,
+  .col.small .bottom {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.45rem 0.8rem;
-    align-items: start;
+    gap: 0.5rem 1rem;
+  }
+  .col.small .bottom {
+    gap: 0.35rem 1rem;
   }
   .col.small .ksi-head {
     grid-column: 1 / -1;
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    opacity: 0.85;
-    margin-top: 0.15rem;
+    opacity: 0.9;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px dashed rgba(255,255,255,0.25);
-    padding-bottom: 0.1rem;
+    letter-spacing: 0.06em;
+    border-bottom: 1px dashed rgba(255,255,255,0.3);
+    padding-bottom: 0.15rem;
+    margin-bottom: 0.1rem;
+    text-align: center;
   }
   .footnote {
-    margin-top: 0.7rem;
+    margin-top: 0.4rem;
     font-size: 0.6rem;
     opacity: 0.6;
     text-align: center;
@@ -174,28 +196,30 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
   <TickingCounter
     :per-year="79_000_000_000"
     prefix="$"
-    label="Spent on car ownership in NJ"
+    label="Spent on car ownership"
     rate-label="≈ 6.6M vehicles × $12K/yr (AAA)"
     size="md"
   />
   <TickingCounter
     :per-year="3_440_000_000"
-    label="Gallons of gasoline burned in NJ"
+    label="Gallons of gasoline burned"
     rate-label="≈ 109 gal/sec · 3.44B gal/yr"
     size="md"
   />
   <TickingCounter
-    :per-year="1_790_000_000"
+    :per-year="1_400_000_000"
     start="2026-01-01"
     :start-value="46_900_000_000"
     prefix="$"
     label="Auto loan debt"
-    rate-label="NJ share (2.79%) of US $1.68T total"
+    rate-label="+$1.4B/yr · NJ share (2.79%) of US ~+$50B/yr"
     size="md"
   />
 </div>
 
 <div class="col small">
+
+<div class="top">
   <TickingCounter
     :per-year="280_000"
     label="Crashes reported"
@@ -208,7 +232,9 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
     rate-label="≈ 30% of crashes"
     size="sm"
   />
+</div>
 
+<div class="bottom">
   <div class="ksi-head">People hurt or killed</div>
 
   <TickingCounter
@@ -239,6 +265,8 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
     rate-label="possible injury"
     size="sm"
   />
+</div>
+
 </div>
 
 </div>
@@ -340,7 +368,7 @@ Lincoln Tunnel XBL (1 bus lane) carries ≈ 5× the 4 car lanes combined · 2,00
     <span><strong>Hudson River AM peak flows</strong> — NJ → NY, all modes</span>
     <a href="https://hbt.hccs.dev" target="_blank">hbt.hccs.dev</a>
   </div>
-  <iframe v-if="$slidev.nav.currentSlideNo === $slidev.nav.currentRoute?.no" src="https://hbt.hccs.dev/?fs=1" loading="lazy"></iframe>
+  <iframe v-if="!$slidev.nav.isPrintMode" src="https://hbt.hccs.dev/?fs=1" loading="lazy"></iframe>
 </div>
 
 <div class="pane">
@@ -362,12 +390,12 @@ SPEAKER NOTES — mode efficiency
 
 ---
 layout: section
-description: 'Public crash-data + maps platform — daily fatalities, annual all-crashes, cleaned, queryable, open source.'
+description: 'Public crash-data + maps — daily fatalities, annual all-crashes, cleaned, queryable, open source.'
 ---
 
 # Demo: [crashes.hudcostreets.org](https://crashes.hudcostreets.org)
 
-Public crash data + maps platform.
+Public crash data + maps.
 
 Daily fatalities · annual all-crashes · cleaned · queryable · open-source.
 
@@ -456,25 +484,32 @@ dragPos:
 }
 </style>
 
-# Open data + agentic civic SWE
+# Open code + data
+
+<hr/>
 
 <div class="body">
 
-**Everything is open:**
 - Code on GitHub ([hudcostreets/*](https://github.com/hudcostreets))
-- Cleaned data in public S3 buckets
-- Daily refresh via GitHub Actions
-- Multiple mirror sites (crashes, path, hbt, ht, ctbk)
+- [Cleaned data][data] in public R2 / S3 buckets
+- Daily refresh [via GitHub Actions][GHA]
+- Similar sites: [path.hudcostreets.org], [hbt.hccs.dev], [ht.hccs.dev], [ctbk.dev]
 
-**Agentic coding has changed the equation:**
-- 1 dev + Claude Code ≈ team of 5
-- HCCS Slack has 10–20 SWEs ready to pitch in
-- e.g. [reportjerseycity.com](https://reportjerseycity.com)
+[data]: https://crashes.hudcostreets.org/raw/
+[GHA]: https://github.com/hudcostreets/nj-crashes/actions
+[path.hudcostreets.org]: path.hudcostreets.org
+[hbt.hccs.dev]: hbt.hccs.dev
+[ht.hccs.dev]: ht.hccs.dev
+[ctbk.dev]: ctbk.dev
 
-**The ask:**
-- Publish raw data → enable citizen science
-- Agencies + advocates building together >
-  agencies building portals alone
+<hr/>
+
+## Aside: coding agents are a big deal
+- Software dev unrecognizable from a year ago
+- Enables citizen-led projects
+  - HCCS Slack includes 10–20 software people with varying cycles
+    - e.g. [reportjerseycity.com](https://reportjerseycity.com)
+  - Lower bar for anyone to make software tools / analyze data
 
 </div>
 
@@ -488,61 +523,6 @@ SPEAKER NOTES
 - Bottom chart: my own commits — orange (Claude-co-authored) explodes since July '25.
 - This is why a 1-person volunteer org can ship a data platform that NJDOT spent years building.
 -->
-
----
-class: applications
-description: 'Crash data has driven Vision Zero campaigns, HIN-based corridor prioritization, and council-meeting advocacy in HC, JC, and HOB. The direct impact is just starting — next 1-2 years > last 10.'
----
-
-<style>
-.slidev-layout.applications {
-  padding: 1.3rem 2rem 1rem;
-  h1 { font-size: 1.5rem; margin-bottom: 0.4rem; }
-  .cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-    font-size: 0.85rem;
-  }
-  h3 {
-    font-size: 1rem;
-    margin: 0 0 0.4rem;
-    color: var(--hccs-accent);
-  }
-  ul { margin: 0; padding-left: 1.2rem; li { line-height: 1.6; } }
-  .honest {
-    margin-top: 1rem;
-    font-size: 0.85rem;
-    font-style: italic;
-    opacity: 0.85;
-    text-align: center;
-    line-height: 1.5;
-  }
-}
-</style>
-
-# Applications — early innings, big potential
-
-<div class="cols">
-<div>
-
-### To date
-- HCCS helped HC launch its Vision Zero campaign + Safety Action Plan
-- JC + HOB also running active VZ programs
-- **HIN** (High-Injury Network) analyses inform paving / signal priorities
-- Crash maps shown at council meetings, with electeds, in newsletters
-
-</div>
-<div>
-
-### What's next
-- **Real-time data → real-time response.** When AASHTO data lands days after a crash, advocates can show up at the next council meeting.
-- **Anecdata → data.** Right now interventions often follow *one* tragic crash. Goal: spot patterns before tragedy.
-- **Predictive / preventative.** Routine corridor scoring; safety system planning.
-- **Public-facing dashboards** for every NJ muni.
-
-</div>
-</div>
 
 ---
 layout: section
