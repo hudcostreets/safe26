@@ -36,6 +36,7 @@ Ryan Williams · Hudson County Complete Streets
 
 ---
 class: hccs-intro
+description: 'Volunteer transportation-safety nonprofit in Hudson County, NJ. Campaigns: Better PATH, Better Light Rail, Better Buses, Turnpike Trap, Vision Zero, JFK Blvd East, 14th St Viaduct.'
 dragPos:
   bp: 580,75,175,125
   blr: 580,210,175,125
@@ -109,6 +110,7 @@ Plus [JFK Blvd East][JFK Blvd East], + more → [hudcostreets.org][hudcostreets.
 
 ---
 layout: section
+description: 'The big picture: cars are an economic, public-health, and transportation disaster in NJ.'
 ---
 
 # Why crash data matters
@@ -117,6 +119,7 @@ Big picture: economic, public-health, transportation disasters
 
 ---
 class: counters
+description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas burned, 660 killed and 280K crashes, $47B in outstanding auto loans.'
 ---
 
 <style>
@@ -359,6 +362,7 @@ SPEAKER NOTES — mode efficiency
 
 ---
 layout: section
+description: 'Public crash-data + maps platform — daily fatalities, annual all-crashes, cleaned, queryable, open source.'
 ---
 
 # Demo: [crashes.hudcostreets.org](https://crashes.hudcostreets.org)
@@ -369,6 +373,7 @@ Daily fatalities · annual all-crashes · cleaned · queryable · open-source.
 
 ---
 class: data-access
+description: 'NJ crash data lives in 3 places: NJSP (daily fatals), NJDOT (annual all-crashes), and the new AASHTOWare portal that finally makes recent years available within months instead of 2-3 years.'
 ---
 
 <style>
@@ -427,6 +432,7 @@ SPEAKER NOTES
 
 ---
 class: open-data
+description: 'Everything is open: source on GitHub, cleaned data in public S3 buckets, daily GHA workflows. Agentic coding lets a single dev ship what an agency takes years to build.'
 dragPos:
   gh: 540,90,440,260
   pc: 540,360,440,200
@@ -485,6 +491,7 @@ SPEAKER NOTES
 
 ---
 class: applications
+description: 'Crash data has driven Vision Zero campaigns, HIN-based corridor prioritization, and council-meeting advocacy in HC, JC, and HOB. The direct impact is just starting — next 1-2 years > last 10.'
 ---
 
 <style>
