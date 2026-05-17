@@ -134,6 +134,12 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
     margin: 0 0 0.6rem;
     text-align: center;
   }
+  .asof {
+    font-weight: 400;
+    font-size: 0.6em;
+    opacity: 0.7;
+    white-space: nowrap;
+  }
   .grid {
     flex: 1 1 auto;
     display: grid;
@@ -188,7 +194,11 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
 }
 </style>
 
-# New Jersey, 2026 — year to date
+<script setup>
+const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+</script>
+
+# New Jersey, 2026 — year to date <span class="asof">({{ asOf }})</span>
 
 <div class="grid">
 
@@ -462,6 +472,7 @@ SPEAKER NOTES
 class: open-data
 description: 'Everything is open: source on GitHub, cleaned data in public S3 buckets, daily GHA workflows. Agentic coding lets a single dev ship what an agency takes years to build.'
 dragPos:
+  rd: 490,25,385,125
   gh: 540,90,440,260
   pc: 540,360,440,200
 ---
@@ -476,8 +487,16 @@ dragPos:
     li { line-height: 1.55; margin: 0.15rem 0; }
     p { margin: 0.5rem 0; }
   }
+  /* Natural-size the image inside its v-drag container so the border hugs the
+   * image content rather than the container box. With `width/height: 100%` +
+   * `object-fit: contain`, the element's border draws around the full container
+   * including any letterbox space — which shows as faint bars above/below
+   * when the container aspect doesn't match the image aspect. */
   img {
-    width: 100%; height: 100%; object-fit: contain;
+    display: block;
+    max-width: 100%; max-height: 100%;
+    width: auto; height: auto;
+    margin: auto;
     border-radius: 4px;
     border: 1px solid rgba(255,255,255,0.15);
   }
@@ -512,6 +531,8 @@ dragPos:
   - Lower bar for anyone to make software tools / analyze data
 
 </div>
+
+<div v-drag="'rd'"><a href="https://crashes.hudcostreets.org/raw/" target="_blank"><img src="/raw-data.png"/></a></div>
 
 <div v-drag="'gh'"><img src="/agentic-gh-commits.png"/></div>
 
