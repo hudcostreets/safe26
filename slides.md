@@ -143,7 +143,7 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
   .grid {
     flex: 1 1 auto;
     display: grid;
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: 1.35fr 1fr;
     gap: 1rem 2rem;
     align-items: stretch;
   }
@@ -173,7 +173,7 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
   }
   .col.small .ksi-head {
     grid-column: 1 / -1;
-    font-size: 0.78rem;
+    font-size: 1.1rem;
     font-weight: 600;
     opacity: 0.9;
     text-transform: uppercase;
@@ -185,8 +185,8 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
   }
   .footnote {
     margin-top: 0.4rem;
-    font-size: 0.6rem;
-    opacity: 0.6;
+    font-size: 0.72rem;
+    opacity: 0.7;
     text-align: center;
     line-height: 1.45;
   }
@@ -214,6 +214,13 @@ const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numer
     :per-year="3_440_000_000"
     label="Gallons of gasoline burned"
     rate-label="≈ 109 gal/sec · 3.44B gal/yr"
+    size="md"
+  />
+  <TickingCounter
+    :per-year="1_700_000_000"
+    prefix="$"
+    label="Value of vehicles totaled"
+    rate-label="≈ 85K vehicles × ~$20K avg ACV"
     size="md"
   />
   <TickingCounter
