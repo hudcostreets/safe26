@@ -124,14 +124,14 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
 
 <style>
 .slidev-layout.counters {
-  padding: 1.2rem 2rem 0.8rem;
+  padding: 0.8rem 2rem 0.6rem;
   display: flex;
   flex-direction: column;
   h1 {
     font-size: 2.4rem;
     font-weight: 600;
     line-height: 1.1;
-    margin: 0 0 0.6rem;
+    margin: 0 0 0.4rem;
     text-align: center;
   }
   .asof {
@@ -183,14 +183,6 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
     margin-bottom: 0.1rem;
     text-align: center;
   }
-  .footnote {
-    margin-top: 0.4rem;
-    font-size: 0.72rem;
-    opacity: 0.7;
-    text-align: center;
-    line-height: 1.45;
-  }
-  .footnote a { color: inherit; }
 }
 </style>
 
@@ -207,29 +199,27 @@ const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numer
     :per-year="79_000_000_000"
     prefix="$"
     label="Spent on car ownership"
-    rate-label="≈ 6.6M vehicles × $12K/yr (AAA)"
+    rate-label="6.6M vehicles × $12K/yr · <a href='https://www.aaa.com/autorepair/articles/breaking-down-the-cost-of-car-ownership'>AAA</a>"
     size="md"
   />
   <TickingCounter
-    :per-year="3_440_000_000"
-    label="Gallons of gasoline burned"
-    rate-label="≈ 109 gal/sec · 3.44B gal/yr"
+    :per-year="3_000_000_000"
+    prefix="$"
+    label="Interest paid on car loans"
+    rate-label="6.5% APR on <strong>$46.5B</strong> outstanding · <a href='https://www.newyorkfed.org/microeconomics/hhdc'>NY Fed</a>"
     size="md"
   />
   <TickingCounter
     :per-year="1_700_000_000"
     prefix="$"
-    label="Value of vehicles totaled"
-    rate-label="≈ 85K vehicles × ~$20K avg ACV"
+    label="Value of vehicles totaled (insurance pays for this)"
+    rate-label="≈ 40K vehicles × $20K ACV"
     size="md"
   />
   <TickingCounter
-    :per-year="1_400_000_000"
-    start="2026-01-01"
-    :start-value="46_900_000_000"
-    prefix="$"
-    label="Auto loan debt"
-    rate-label="+$1.4B/yr · NJ share (2.79%) of US ~+$50B/yr"
+    :per-year="3_440_000_000"
+    label="Gallons of gasoline burned"
+    rate-label="109 gal/sec · 3.44B gal/yr · <a href='https://www.nj.com/business/2026/02/the-real-reason-your-nj-gas-costs-keep-changing-its-not-just-the-price-per-gallon.html?gift=b6bf3872-a3b9-4237-b2c9-c24b308fa9c7'>NJ.com</a>"
     size="md"
   />
 </div>
@@ -240,7 +230,7 @@ const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numer
   <TickingCounter
     :per-year="280_000"
     label="Crashes reported"
-    rate-label="≈ 1 every 2 min"
+    rate-label="≈ 1 every 2 min · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>"
     size="sm"
   />
   <TickingCounter
@@ -259,14 +249,14 @@ const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numer
     start="2026-05-14"
     :start-value="177"
     label="Killed"
-    rate-label="proj. 584 EoY · 177 YTD"
+    rate-label="proj. 584 EoY · <a href='https://www.nj.gov/njsp/info/fatalacc/'>NJSP</a>"
     size="sm"
     color="#f3a712"
   />
   <TickingCounter
     :per-year="3_150"
     label="Serious injury"
-    rate-label="≈ 3,150 / yr (NJDOT)"
+    rate-label="≈ 3,150 / yr · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>"
     size="sm"
     color="#f3a712"
   />
@@ -286,10 +276,6 @@ const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numer
 
 </div>
 
-</div>
-
-<div class="footnote">
-Sources: <a href="https://www.aaa.com/autorepair/articles/breaking-down-the-cost-of-car-ownership">AAA</a> · <a href="https://www.nj.com/business/2026/02/the-real-reason-your-nj-gas-costs-keep-changing-its-not-just-the-price-per-gallon.html?gift=b6bf3872-a3b9-4237-b2c9-c24b308fa9c7">NJ.com / API (gas)</a> · <a href="https://fortune.com/2026/05/07/americans-auto-loan-debt-crisis/">Fortune (auto debt)</a> · <a href="https://www.nj.gov/njsp/info/fatalacc/">NJSP</a> · <a href="https://www.nj.gov/transportation/refdata/accident/">NJDOT</a> · <a href="https://crashes.hudcostreets.org">crashes.hudcostreets.org</a>
 </div>
 
 <!--

@@ -6,7 +6,8 @@
       </div>
     </div>
     <div class="label">{{ label }}</div>
-    <div v-if="rateLabel" class="rate">{{ rateLabel }}</div>
+    <!-- rateLabel may contain a <strong> to emphasize one figure (e.g. a total). -->
+    <div v-if="rateLabel" class="rate" v-html="rateLabel" />
   </div>
 </template>
 
@@ -104,16 +105,31 @@ const display = computed(() => {
   font-size: 0.85em;
   opacity: 0.9;
   line-height: 1.25;
-  /* Wide enough that "Spent on car ownership in NJ" stays on one line at
-   * the parent container width; if the parent is too narrow it'll still
-   * wrap naturally. */
-  max-width: 36ch;
+  /* Wide enough that even the longest label ("Value of vehicles totaled
+   * (insurance pays for this)") stays on one line at the parent container
+   * width; if the parent is too narrow it'll still wrap naturally. */
+  max-width: 52ch;
 }
 .rate {
   margin-top: 0.2em;
   font-size: 0.92em;
-  opacity: 0.72;
+  /* Fade via translucent color, not `opacity`: opacity would also fade any
+   * emphasized <strong> in the subtree (it can't escape a parent's opacity). */
+  color: rgba(255, 255, 255, 0.72);
   font-style: italic;
+}
+/* v-html'd <strong> escapes scoped styling, so reach it with :deep. */
+.rate :deep(strong) {
+  font-weight: 700;
+  font-style: normal;
+  font-size: 1.35em;
+  color: var(--hccs-accent);
+}
+/* Inline source links: subtle, inherit the faded caption color. */
+.rate :deep(a) {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
 }
 
 /* Auto-fit value font size based on its container width using cqi (container
