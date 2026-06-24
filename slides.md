@@ -124,9 +124,48 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
 
 <style>
 .slidev-layout.counters {
+  position: relative;
   padding: 0.8rem 2rem 0.6rem;
   display: flex;
   flex-direction: column;
+  .pc-btn {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 1rem;
+    z-index: 10;
+    font-size: 0.72rem;
+    padding: 0.18rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    font-family: inherit;
+    .tt {
+      position: absolute;
+      bottom: calc(100% + 0.4rem);
+      left: 0;
+      width: 17rem;
+      padding: 0.45rem 0.6rem;
+      background: rgba(0,0,0,0.85);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 400;
+      line-height: 1.4;
+      text-align: left;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+    &.active {
+      background: var(--hccs-accent);
+      color: #14401f;
+      border-color: var(--hccs-accent);
+      font-weight: 600;
+    }
+    &:hover .tt { opacity: 1; }
+  }
   h1 {
     font-size: 2.4rem;
     font-weight: 600;
@@ -187,39 +226,74 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
 </style>
 
 <script setup>
+import { ref } from 'vue'
 const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+
+// Per-capita toggle. NJ population ≈ 9.5M (2024 Census est).
+const perCapita = ref(false)
+const NJ_POP = 9_500_000
+// Costs/volumes → per resident; counts (crashes/casualties) → per 100k residents.
+const pcE = (v) => perCapita.value ? v / NJ_POP : v
+const pc100k = (v) => perCapita.value ? v / (NJ_POP / 100_000) : v
+// Per-capita values are tiny, so show 2 decimals (the trailing digits tick).
+const dg = () => perCapita.value ? 2 : 0
+
+// Captions: full (with source links) in total mode, terse per-capita unit otherwise.
+const CCC = 'https://www.cccis.com/reports/crash-course-2025/q4#:~:text=Adjusted%20vehicle%20values%20inched%20up%20to%20%2413%2C700%20through%20October'
+const caps = {
+  cars:         { tot: "6.6M vehicles × $12K/yr · <a href='https://www.aaa.com/autorepair/articles/breaking-down-the-cost-of-car-ownership'>AAA</a>", pc: 'per NJ resident' },
+  interest:     { tot: "6.5% APR on <strong>$46.5B</strong> outstanding · <a href='https://www.newyorkfed.org/microeconomics/hhdc'>NY Fed</a>", pc: 'per NJ resident' },
+  totaled:      { tot: `≈40K vehicles × $13.7K ACV · <a href='${CCC}'>CCC</a>`, pc: 'per NJ resident' },
+  gas:          { tot: "109 gal/sec · 3.44B gal/yr · <a href='https://www.nj.com/business/2026/02/the-real-reason-your-nj-gas-costs-keep-changing-its-not-just-the-price-per-gallon.html?gift=b6bf3872-a3b9-4237-b2c9-c24b308fa9c7'>NJ.com</a>", pc: 'per NJ resident' },
+  crashes:      { tot: "<a href='https://crashes.hudcostreets.org/#njdot'>1 every ≈2 mins</a> · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>", pc: 'per 100k residents' },
+  totaledCount: { tot: '≈ 30% of crashes', pc: 'per 100k residents' },
+  killed:       { tot: "proj. 584 EoY · <a href='https://www.nj.gov/njsp/info/fatalacc/'>NJSP</a>", pc: 'per 100k residents' },
+  serious:      { tot: "≈3,150 / yr · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>", pc: 'per 100k residents' },
+  moderate:     { tot: 'non-incapacitating', pc: 'per 100k residents' },
+  minor:        { tot: 'possible injury', pc: 'per 100k residents' },
+}
+const cap = (k) => perCapita.value ? caps[k].pc : caps[k].tot
 </script>
 
 # New Jersey, 2026 — year to date <span class="asof">({{ asOf }})</span>
+
+<button class="pc-btn" :class="{ active: perCapita }" @click="perCapita = !perCapita">
+  per person
+  <span class="tt">Recompute every figure per NJ resident (costs) or per 100k residents (crashes &amp; casualties) — ÷ 9.5M population.</span>
+</button>
 
 <div class="grid">
 
 <div class="col big">
   <TickingCounter
-    :per-year="79_000_000_000"
+    :per-year="pcE(79_000_000_000)"
+    :digits="dg()"
     prefix="$"
     label="Spent on car ownership"
-    rate-label="6.6M vehicles × $12K/yr · <a href='https://www.aaa.com/autorepair/articles/breaking-down-the-cost-of-car-ownership'>AAA</a>"
+    :rate-label="cap('cars')"
     size="md"
   />
   <TickingCounter
-    :per-year="3_000_000_000"
+    :per-year="pcE(3_000_000_000)"
+    :digits="dg()"
     prefix="$"
     label="Interest paid on car loans"
-    rate-label="6.5% APR on <strong>$46.5B</strong> outstanding · <a href='https://www.newyorkfed.org/microeconomics/hhdc'>NY Fed</a>"
+    :rate-label="cap('interest')"
     size="md"
   />
   <TickingCounter
-    :per-year="1_700_000_000"
+    :per-year="pcE(1_164_500_000)"
+    :digits="dg()"
     prefix="$"
     label="Value of vehicles totaled (insurance pays for this)"
-    rate-label="≈ 40K vehicles × $20K ACV"
+    :rate-label="cap('totaled')"
     size="md"
   />
   <TickingCounter
-    :per-year="3_440_000_000"
+    :per-year="pcE(3_440_000_000)"
+    :digits="dg()"
     label="Gallons of gasoline burned"
-    rate-label="109 gal/sec · 3.44B gal/yr · <a href='https://www.nj.com/business/2026/02/the-real-reason-your-nj-gas-costs-keep-changing-its-not-just-the-price-per-gallon.html?gift=b6bf3872-a3b9-4237-b2c9-c24b308fa9c7'>NJ.com</a>"
+    :rate-label="cap('gas')"
     size="md"
   />
 </div>
@@ -228,15 +302,17 @@ const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numer
 
 <div class="top">
   <TickingCounter
-    :per-year="280_000"
+    :per-year="pc100k(280_000)"
+    :digits="dg()"
     label="Crashes reported"
-    rate-label="≈ 1 every 2 min · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>"
+    :rate-label="cap('crashes')"
     size="sm"
   />
   <TickingCounter
-    :per-year="85_000"
+    :per-year="pc100k(85_000)"
+    :digits="dg()"
     label="Vehicles totaled"
-    rate-label="≈ 30% of crashes"
+    :rate-label="cap('totaledCount')"
     size="sm"
   />
 </div>
@@ -245,31 +321,35 @@ const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numer
   <div class="ksi-head">People hurt or killed</div>
 
   <TickingCounter
-    :per-year="584"
+    :per-year="pc100k(584)"
     start="2026-05-14"
-    :start-value="177"
+    :start-value="pc100k(177)"
+    :digits="dg()"
     label="Killed"
-    rate-label="proj. 584 EoY · <a href='https://www.nj.gov/njsp/info/fatalacc/'>NJSP</a>"
+    :rate-label="cap('killed')"
     size="sm"
     color="#f3a712"
   />
   <TickingCounter
-    :per-year="3_150"
+    :per-year="pc100k(3_150)"
+    :digits="dg()"
     label="Serious injury"
-    rate-label="≈ 3,150 / yr · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>"
+    :rate-label="cap('serious')"
     size="sm"
     color="#f3a712"
   />
   <TickingCounter
-    :per-year="12_000"
+    :per-year="pc100k(12_000)"
+    :digits="dg()"
     label="Moderate"
-    rate-label="non-incapacitating"
+    :rate-label="cap('moderate')"
     size="sm"
   />
   <TickingCounter
-    :per-year="25_000"
+    :per-year="pc100k(25_000)"
+    :digits="dg()"
     label="Minor / other"
-    rate-label="possible injury"
+    :rate-label="cap('minor')"
     size="sm"
   />
 </div>
@@ -361,7 +441,7 @@ preload: false
 # Bus / Bike lanes and transit are higher capacity
 
 <div class="lede">
-Lincoln Tunnel XBL (1 bus lane) carries ≈ 5× the 4 car lanes combined · 2,000 bikes through one intersection in 5 min
+Lincoln Tunnel XBL (1 bus lane) carries ≈5× the 4 car lanes combined · 2,000 bikes through one intersection in 5 min
 </div>
 
 <div class="panes">
