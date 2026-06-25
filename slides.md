@@ -227,15 +227,18 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
     grid-column: 1 / -1;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.3rem;
-    margin-bottom: 0.4rem;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    /* QR sits bottom-right; keep the selector clear of it. */
+    padding-right: 5rem;
     button {
       display: inline-flex;
       align-items: center;
-      gap: 0.25em;
-      font-size: 0.72rem;
-      padding: 0.12rem 0.55rem;
+      justify-content: center;
+      font-size: 0.85rem;
+      padding: 0.2rem 0.55rem;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.3);
       background: transparent;
@@ -244,6 +247,7 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
       font-family: inherit;
       white-space: nowrap;
     }
+    button .person-icon { width: 1.35em; height: 1.35em; }
     button.active { background: var(--hccs-accent); color: #14401f; border-color: var(--hccs-accent); font-weight: 600; }
     button.driver     .person-icon { color: #a94c9a; }
     button.passenger  .person-icon { color: #f08030; }
@@ -384,16 +388,6 @@ const KILLED_YTD_FRAC = 177 / 582
 <div class="bottom">
   <div class="ksi-head">People hurt or killed</div>
 
-  <div class="vt-select">
-    <button :class="{ active: allSelected }" @click="selectAll">All</button>
-    <button
-      v-for="t in TYPES"
-      :key="t"
-      :class="[t, { active: isSel(t) && !allSelected }]"
-      @click="clickType(t)"
-    ><PersonIcon :type="t" /> {{ TYPE_LABELS[t] }}</button>
-  </div>
-
   <TickingCounter
     :per-year="pc100k(sel('killed'))"
     start="2026-05-14"
@@ -426,6 +420,17 @@ const KILLED_YTD_FRAC = 177 / 582
     :rate-label="cap('minor')"
     size="sm"
   />
+
+  <div class="vt-select">
+    <button :class="{ active: allSelected }" @click="selectAll">All</button>
+    <button
+      v-for="t in TYPES"
+      :key="t"
+      :class="[t, { active: isSel(t) && !allSelected }]"
+      :title="TYPE_LABELS[t]"
+      @click="clickType(t)"
+    ><PersonIcon :type="t" /></button>
+  </div>
 </div>
 
 </div>
