@@ -222,11 +222,44 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
     margin-bottom: 0.1rem;
     text-align: center;
   }
+  /* Road-user multi-select: filters the KSI counters by person type. */
+  .vt-select {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    margin-bottom: 0.4rem;
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25em;
+      font-size: 0.72rem;
+      padding: 0.12rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: transparent;
+      color: rgba(255,255,255,0.72);
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    button.active { background: var(--hccs-accent); color: #14401f; border-color: var(--hccs-accent); font-weight: 600; }
+    button.driver     .person-icon { color: #a94c9a; }
+    button.passenger  .person-icon { color: #f08030; }
+    button.pedestrian .person-icon { color: #d85a6a; }
+    button.cyclist    .person-icon { color: #7c5295; }
+    button.driver.active     { background: #a94c9a; border-color: #a94c9a; color: #fff; }
+    button.passenger.active  { background: #f08030; border-color: #f08030; color: #14401f; }
+    button.pedestrian.active { background: #d85a6a; border-color: #d85a6a; color: #fff; }
+    button.cyclist.active    { background: #7c5295; border-color: #7c5295; color: #fff; }
+    button.active .person-icon { color: inherit; }
+  }
 }
 </style>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const asOf = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
 
 // Per-capita toggle. NJ population ≈ 9.5M (2024 Census est).
@@ -247,12 +280,43 @@ const caps = {
   gas:          { tot: "109 gal/sec · 3.44B gal/yr · <a href='https://www.nj.com/business/2026/02/the-real-reason-your-nj-gas-costs-keep-changing-its-not-just-the-price-per-gallon.html?gift=b6bf3872-a3b9-4237-b2c9-c24b308fa9c7'>NJ.com</a>", pc: 'per NJ resident' },
   crashes:      { tot: "<a href='https://crashes.hudcostreets.org/#njdot'>1 every ≈2 mins</a> · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>", pc: 'per 100k residents' },
   totaledCount: { tot: '≈ 30% of crashes', pc: 'per 100k residents' },
-  killed:       { tot: "proj. 584 EoY · <a href='https://www.nj.gov/njsp/info/fatalacc/'>NJSP</a>", pc: 'per 100k residents' },
-  serious:      { tot: "≈3,150 / yr · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>", pc: 'per 100k residents' },
-  moderate:     { tot: 'non-incapacitating', pc: 'per 100k residents' },
-  minor:        { tot: 'possible injury', pc: 'per 100k residents' },
+  killed:       { tot: "<a href='https://www.nj.gov/njsp/info/fatalacc/'>NJSP</a>", pc: 'per 100k residents' },
+  serious:      { tot: "suspected serious · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>", pc: 'per 100k residents' },
+  moderate:     { tot: "non-incapacitating · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>", pc: 'per 100k residents' },
+  minor:        { tot: "possible injury · <a href='https://www.nj.gov/transportation/refdata/accident/'>NJDOT</a>", pc: 'per 100k residents' },
 }
 const cap = (k) => perCapita.value ? caps[k].pc : caps[k].tot
+
+// KSI by road-user type (annual, NJ statewide). Killed: NJSP year-type-county
+// (2025, complete). Injuries: NJDOT victim-severity conditions 2/3/4 (2024,
+// latest complete) — NJDOT fatal coding undercounts peds/cyclists, so Killed
+// uses the authoritative NJSP source instead.
+const KSI = {
+  killed:   { driver: 301,   passenger: 92,    pedestrian: 173,  cyclist: 16   },
+  serious:  { driver: 1977,  passenger: 1001,  pedestrian: 703,  cyclist: 257  },
+  moderate: { driver: 21249, passenger: 9545,  pedestrian: 1840, cyclist: 1256 },
+  minor:    { driver: 26441, passenger: 12624, pedestrian: 1539, cyclist: 800  },
+}
+const TYPES = ['driver', 'passenger', 'pedestrian', 'cyclist']
+const TYPE_LABELS = { driver: 'Driver', passenger: 'Passenger', pedestrian: 'Ped', cyclist: 'Cyclist' }
+const selected = ref(new Set(TYPES))
+const allSelected = computed(() => TYPES.every(t => selected.value.has(t)))
+const isSel = (t) => selected.value.has(t)
+// Sum a severity row over the currently-selected road-user types.
+const sel = (cond) => TYPES.filter(t => selected.value.has(t)).reduce((s, t) => s + KSI[cond][t], 0)
+function selectAll() { selected.value = new Set(TYPES) }
+function clickType(t) {
+  // "All" active → isolate to the clicked type; otherwise toggle, normalizing
+  // empty or all-four back to "All".
+  if (allSelected.value) { selected.value = new Set([t]); return }
+  const s = new Set(selected.value)
+  s.has(t) ? s.delete(t) : s.add(t)
+  if (s.size === 0 || s.size === TYPES.length) selectAll()
+  else selected.value = s
+}
+// Killed keeps its 5/14 YTD anchor (177 all-types), scaled to the selected
+// subset's share of the annual fatal total.
+const KILLED_YTD_FRAC = 177 / 582
 </script>
 
 # New Jersey, 2026 — year to date <span class="asof">({{ asOf }})</span>
@@ -320,10 +384,20 @@ const cap = (k) => perCapita.value ? caps[k].pc : caps[k].tot
 <div class="bottom">
   <div class="ksi-head">People hurt or killed</div>
 
+  <div class="vt-select">
+    <button :class="{ active: allSelected }" @click="selectAll">All</button>
+    <button
+      v-for="t in TYPES"
+      :key="t"
+      :class="[t, { active: isSel(t) && !allSelected }]"
+      @click="clickType(t)"
+    ><PersonIcon :type="t" /> {{ TYPE_LABELS[t] }}</button>
+  </div>
+
   <TickingCounter
-    :per-year="pc100k(584)"
+    :per-year="pc100k(sel('killed'))"
     start="2026-05-14"
-    :start-value="pc100k(177)"
+    :start-value="pc100k(sel('killed') * KILLED_YTD_FRAC)"
     :digits="dg()"
     label="Killed"
     :rate-label="cap('killed')"
@@ -331,7 +405,7 @@ const cap = (k) => perCapita.value ? caps[k].pc : caps[k].tot
     color="#f3a712"
   />
   <TickingCounter
-    :per-year="pc100k(3_150)"
+    :per-year="pc100k(sel('serious'))"
     :digits="dg()"
     label="Serious injury"
     :rate-label="cap('serious')"
@@ -339,14 +413,14 @@ const cap = (k) => perCapita.value ? caps[k].pc : caps[k].tot
     color="#f3a712"
   />
   <TickingCounter
-    :per-year="pc100k(12_000)"
+    :per-year="pc100k(sel('moderate'))"
     :digits="dg()"
     label="Moderate"
     :rate-label="cap('moderate')"
     size="sm"
   />
   <TickingCounter
-    :per-year="pc100k(25_000)"
+    :per-year="pc100k(sel('minor'))"
     :digits="dg()"
     label="Minor / other"
     :rate-label="cap('minor')"
