@@ -336,7 +336,7 @@ const KILLED_YTD_FRAC = 177 / 582
 
 # New Jersey, 2026 — year to date <span class="asof">({{ asOf }})</span>
 
-<button class="pc-btn" :class="{ active: perCapita }" @click="perCapita = !perCapita">
+<button class="pc-btn" :class="{ active: perCapita }" @mousedown.prevent @click="perCapita = !perCapita">
   {{ perCapita ? 'μ' : 'Σ' }}
   <span class="tt"><strong>Σ</strong> totals · <strong>μ</strong> per&nbsp;capita. Recompute every figure per NJ resident (costs) or per 100k residents (crashes &amp; casualties) — ÷ 9.5M population.</span>
 </button>
@@ -433,12 +433,13 @@ const KILLED_YTD_FRAC = 177 / 582
   />
 
   <div class="vt-select">
-    <button :class="{ active: allSelected }" @click="selectAll">All</button>
+    <button :class="{ active: allSelected }" @mousedown.prevent @click="selectAll">All</button>
     <button
       v-for="t in TYPES"
       :key="t"
       :class="[t, { active: isSel(t) && !allSelected }]"
       :title="TYPE_LABELS[t]"
+      @mousedown.prevent
       @click="clickType(t)"
     ><PersonIcon :type="t" /></button>
   </div>
@@ -777,8 +778,8 @@ const rowTotal = (key) => Math.round(selected.value.reduce((sum, t) => sum + KSI
 <div class="exp-head">
   <h1>Who gets hurt — by severity <span class="exp-tag">experiment</span></h1>
   <div class="scope-toggle">
-    <button :class="{ active: !ytd }" @click="ytd = false">Annual</button>
-    <button :class="{ active: ytd }" @click="ytd = true">YTD · {{ asOf }}</button>
+    <button :class="{ active: !ytd }" @mousedown.prevent @click="ytd = false">Annual</button>
+    <button :class="{ active: ytd }" @mousedown.prevent @click="ytd = true">YTD · {{ asOf }}</button>
   </div>
 </div>
 
@@ -795,12 +796,13 @@ const rowTotal = (key) => Math.round(selected.value.reduce((sum, t) => sum + KSI
 </div>
 
 <div class="vt-select">
-  <button :class="{ active: allSelected() }" @click="selectAll">All</button>
+  <button :class="{ active: allSelected() }" @mousedown.prevent @click="selectAll">All</button>
   <button
     v-for="t in TYPES"
     :key="t"
     :class="[t, { active: isSel(t) && !allSelected() }]"
     :title="TYPE_LABELS[t]"
+    @mousedown.prevent
     @click="clickType(t)"
   ><PersonIcon :type="t" /></button>
 </div>
