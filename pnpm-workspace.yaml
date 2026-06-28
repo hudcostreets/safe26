@@ -2,9 +2,6 @@ catalogMode: prefer
 ignoreWorkspaceRootCheck: true
 shamefullyHoist: true
 shellEmulator: true
-trustPolicy: no-downgrade
-trustPolicyExclude:
-  - langium
 
 packages:
   - .
