@@ -19,7 +19,12 @@ jobs:
       # (see `package.json` → `pnpm.overrides`), so there's no fork checkout to
       # build here anymore. `playwright-chromium`'s postinstall fetches the
       # headless browser that `slidev build` uses to render per-slide OG shells.
-      - run: pnpm i --no-frozen-lockfile
+      #
+      # Drop the committed lockfile first: pkg.pr.new tarballs are recorded as
+      # `{tarball: url}` with no integrity hash, so a clean store can't verify
+      # them (ERR_PNPM_MISSING_TARBALL_INTEGRITY). Resolving fresh sidesteps
+      # that — the `@slidev/*` SHAs stay pinned via `pnpm.overrides`.
+      - run: rm -f pnpm-lock.yaml && pnpm i --no-frozen-lockfile
       # Belt + suspenders: guarantee the browser is present even if a cached
       # pnpm store skipped the postinstall (the binary lives outside the store,
       # in ~/.cache/ms-playwright, which isn't cached between runs).
