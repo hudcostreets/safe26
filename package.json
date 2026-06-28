@@ -10,8 +10,19 @@
   "dependencies": {
     "@iconify-json/logos": "^1.2.4",
     "@iconify-json/mdi": "^1.2.3",
-    "@slidev/cli": "workspace:*",
+    "@slidev/cli": "latest",
     "slidev-theme-hccs": "github:hudcostreets/slidev-theme#56be9ab",
     "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "vite": "^8.0.16"
+  },
+  "pnpm": {
+    "overrides": {
+      "@slidev/cli": "https://pkg.pr.new/Open-Athena/slidev/@slidev/cli@78f048f4f364e0bf2a1781049fb8735337e2299c",
+      "@slidev/client": "https://pkg.pr.new/Open-Athena/slidev/@slidev/client@78f048f4f364e0bf2a1781049fb8735337e2299c",
+      "@slidev/parser": "https://pkg.pr.new/Open-Athena/slidev/@slidev/parser@78f048f4f364e0bf2a1781049fb8735337e2299c",
+      "@slidev/types": "https://pkg.pr.new/Open-Athena/slidev/@slidev/types@78f048f4f364e0bf2a1781049fb8735337e2299c"
+    }
   }
 }

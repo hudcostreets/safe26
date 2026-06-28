@@ -9,16 +9,10 @@ trustPolicyExclude:
 packages:
   - .
   - ../slidev-theme
-  - ../../slidev/packages/slidev
-  - ../../slidev/packages/client
-  - ../../slidev/packages/parser
-  - ../../slidev/packages/types
 
 strictPeerDependencies: false
 linkWorkspacePackages: true
 
-patchedDependencies:
-  '@hedgedoc/markdown-it-plugins@2.1.4': ../../slidev/patches/@hedgedoc__markdown-it-plugins@2.1.4.patch
 catalogs:
   demo:
     '@vue/compiler-sfc': ^3.5.33
