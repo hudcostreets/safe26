@@ -8,25 +8,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # pnpm-workspace.yaml references `../../slidev/packages/*` (matches the
-      # local layout where safe26 lives at `~/c/hccs/safe26` and the fork at
-      # `~/c/slidev`). Clone the fork to the same relative path under the
-      # runner work dir so the workspace resolves identically.
-      - name: Clone slidev fork
-        run: git clone --depth 1 https://github.com/Open-Athena/slidev.git ../../slidev
       - uses: pnpm/action-setup@v4
         with:
           version: 10
-      # Slidev fork ships TS source only (no `dist/` in git); install its own
-      # workspace deps (tsdown etc.) and build its packages so `@slidev/cli`
-      # has a runnable `dist/cli.mjs`. Must happen BEFORE the deck's install,
-      # because the deck's `pnpm-workspace.yaml` links to the fork's packages.
-      - name: Install + build slidev fork
-        working-directory: ../../slidev
-        run: |
-          pnpm install --no-frozen-lockfile
-          pnpm build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      # The deck pulls `@slidev/*` from pkg.pr.new continuous-release builds
+      # (see `package.json` → `pnpm.overrides`), so there's no fork checkout to
+      # build here anymore. `playwright-chromium`'s postinstall fetches the
+      # headless browser that `slidev build` uses to render per-slide OG shells.
       - run: pnpm i --no-frozen-lockfile
+      # Belt + suspenders: guarantee the browser is present even if a cached
+      # pnpm store skipped the postinstall (the binary lives outside the store,
+      # in ~/.cache/ms-playwright, which isn't cached between runs).
+      - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm build
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
