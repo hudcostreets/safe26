@@ -364,7 +364,7 @@ const KILLED_YTD_FRAC = 177 / 582
     :per-year="pcE(1_164_500_000)"
     :digits="dg()"
     prefix="$"
-    label="Value of vehicles totaled (insurance pays for this)"
+    label="Value of vehicles totaled (your insurance pays 💸🔥)"
     :rate-label="cap('totaled')"
     size="md"
   />
