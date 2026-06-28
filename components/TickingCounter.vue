@@ -135,12 +135,12 @@ const display = computed(() => {
 /* Auto-fit value font size based on its container width using cqi (container
  * inline %) so very wide numbers shrink to fit, while small ones stay big. */
 .ticking-counter { container-type: inline-size; }
-.sm .value { font-size: clamp(2.2rem, 18cqi, 3rem); }
+.sm .value { font-size: clamp(2.6rem, 22cqi, 3.8rem); }
 .md .value { font-size: clamp(1.6rem, 13cqi, 3.6rem); }
 .lg .value { font-size: clamp(2rem, 16cqi, 5rem); }
 /* Labels are read at mobile share-time at ~28% of slide width, so they need
  * to be big enough that at 360px viewport they're still ≥5px. */
-.sm .label { font-size: 1.15rem; }
+.sm .label { font-size: 1.35rem; }
 .md .label { font-size: 1.25rem; }
 .lg .label { font-size: 1.4rem; }
 </style>

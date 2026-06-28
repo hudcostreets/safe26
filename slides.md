@@ -133,9 +133,14 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
     bottom: 1.2rem;
     left: 1rem;
     z-index: 10;
-    font-size: 0.72rem;
-    padding: 0.18rem 0.7rem;
-    border-radius: 999px;
+    font-size: 1.1rem;
+    line-height: 1;
+    width: 1.9rem;
+    height: 1.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.35);
     background: transparent;
     color: rgba(255,255,255,0.7);
@@ -152,6 +157,7 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
       border-radius: 6px;
       font-size: 0.7rem;
       font-weight: 400;
+      font-style: normal;
       line-height: 1.4;
       text-align: left;
       opacity: 0;
@@ -196,6 +202,7 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
    * + 4 counters) stays tightly bonded. Bottom padding reserves the
    * lower-right corner for the SlideQR + URL/logo footer. */
   .col.small {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -222,17 +229,21 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
     margin-bottom: 0.1rem;
     text-align: center;
   }
-  /* Road-user multi-select: filters the KSI counters by person type. */
+  /* Road-user multi-select: filters the KSI counters by person type. Pulled
+   * out of the counter grid and dropped into the bottom band (between the Σ/μ
+   * button at far left and the QR/logo at far right) so the 6 counters above
+   * get the full column height to spread into. */
   .vt-select {
-    grid-column: 1 / -1;
+    position: absolute;
+    bottom: 0.7rem;
+    left: 0;
+    /* clear the QR/logo that sit in the slide's bottom-right corner */
+    right: 8rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     gap: 0.4rem;
-    margin-top: 0.5rem;
-    /* QR sits bottom-right; keep the selector clear of it. */
-    padding-right: 5rem;
     button {
       display: inline-flex;
       align-items: center;
@@ -240,9 +251,9 @@ description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas b
       font-size: 0.85rem;
       padding: 0.2rem 0.55rem;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: transparent;
-      color: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.92);
+      color: #14401f;
       cursor: pointer;
       font-family: inherit;
       white-space: nowrap;
@@ -326,8 +337,8 @@ const KILLED_YTD_FRAC = 177 / 582
 # New Jersey, 2026 — year to date <span class="asof">({{ asOf }})</span>
 
 <button class="pc-btn" :class="{ active: perCapita }" @click="perCapita = !perCapita">
-  per person
-  <span class="tt">Recompute every figure per NJ resident (costs) or per 100k residents (crashes &amp; casualties) — ÷ 9.5M population.</span>
+  {{ perCapita ? 'μ' : 'Σ' }}
+  <span class="tt"><strong>Σ</strong> totals · <strong>μ</strong> per&nbsp;capita. Recompute every figure per NJ resident (costs) or per 100k residents (crashes &amp; casualties) — ÷ 9.5M population.</span>
 </button>
 
 <div class="grid">
