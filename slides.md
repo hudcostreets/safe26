@@ -727,8 +727,9 @@ clicks: 0
 ---
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
+// Full-year (annualized) figures; the YTD toggle prorates these to today.
 const KSI = {
   killed:   { driver: 301,   passenger: 92,    pedestrian: 173,  cyclist: 16   },
   serious:  { driver: 1977,  passenger: 1001,  pedestrian: 703,  cyclist: 257  },
@@ -745,6 +746,20 @@ const ROWS = [
   { key: 'minor',    label: 'Minor / other' },
 ]
 
+// Fraction of the calendar year elapsed (uniform proration).
+const now = new Date()
+const yStart = new Date(now.getFullYear(), 0, 1)
+const yEnd = new Date(now.getFullYear() + 1, 0, 1)
+const yearFrac = (now - yStart) / (yEnd - yStart)
+const asOf = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+
+const ytd = ref(false)
+const factor = computed(() => ytd.value ? yearFrac : 1)
+const scaledCounts = (key) => {
+  const f = factor.value
+  return Object.fromEntries(TYPES.map(t => [t, KSI[key][t] * f]))
+}
+
 const selected = ref([...TYPES])
 const allSelected = () => TYPES.every(t => selected.value.includes(t))
 const isSel = (t) => selected.value.includes(t)
@@ -756,10 +771,16 @@ function clickType(t) {
   if (s.size === 0 || s.size === TYPES.length) selectAll()
   else selected.value = TYPES.filter(x => s.has(x))
 }
-const rowTotal = (key) => selected.value.reduce((sum, t) => sum + KSI[key][t], 0)
+const rowTotal = (key) => Math.round(selected.value.reduce((sum, t) => sum + KSI[key][t], 0) * factor.value)
 </script>
 
-# Who gets hurt — by severity <span class="exp-tag">experiment</span>
+<div class="exp-head">
+  <h1>Who gets hurt — by severity <span class="exp-tag">experiment</span></h1>
+  <div class="scope-toggle">
+    <button :class="{ active: !ytd }" @click="ytd = false">Annual</button>
+    <button :class="{ active: ytd }" @click="ytd = true">YTD · {{ asOf }}</button>
+  </div>
+</div>
 
 <div class="rows">
   <div class="urow" v-for="row in ROWS" :key="row.key">
@@ -768,7 +789,7 @@ const rowTotal = (key) => selected.value.reduce((sum, t) => sum + KSI[key][t], 0
       <span class="lab">{{ row.label }}</span>
     </div>
     <div class="box">
-      <UnitGrid :counts="KSI[row.key]" :colors="COLORS" :types="TYPES" :selected="selected" />
+      <UnitGrid :counts="scaledCounts(row.key)" :colors="COLORS" :types="TYPES" :selected="selected" />
     </div>
   </div>
 </div>
@@ -789,7 +810,14 @@ const rowTotal = (key) => selected.value.reduce((sum, t) => sum + KSI[key][t], 0
   padding: 1rem 2rem 0.8rem;
   display: flex;
   flex-direction: column;
-  h1 { font-size: 1.8rem; font-weight: 600; margin: 0 0 0.6rem; }
+  .exp-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  h1 { font-size: 1.8rem; font-weight: 600; margin: 0; }
   .exp-tag {
     font-size: 0.8rem;
     font-weight: 400;
@@ -798,6 +826,24 @@ const rowTotal = (key) => selected.value.reduce((sum, t) => sum + KSI[key][t], 0
     border-radius: 999px;
     padding: 0.1rem 0.5rem;
     vertical-align: middle;
+  }
+  .scope-toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 999px;
+    overflow: hidden;
+    button {
+      font-family: inherit;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.9rem;
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    button.active { background: var(--hccs-accent); color: #14401f; font-weight: 600; }
   }
   .rows {
     flex: 1 1 auto;
