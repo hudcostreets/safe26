@@ -119,6 +119,7 @@ Big picture: economic, public health, transportation disasters
 
 ---
 class: counters
+title: New Jersey, 2026 — year to date
 description: 'Running 2026 totals: ~$79B/yr on car ownership, 3.44B gal of gas burned, 660 killed and 280K crashes, $47B in outstanding auto loans.'
 ---
 
@@ -564,6 +565,7 @@ SPEAKER NOTES — mode efficiency
 
 ---
 layout: section
+title: 'Demo: crashes.hudcostreets.org'
 description: 'Public crash-data + maps — daily fatalities, annual all-crashes, cleaned, queryable, open source.'
 ---
 
