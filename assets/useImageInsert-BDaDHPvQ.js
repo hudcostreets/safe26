@@ -1,1 +1,0 @@
-import{t as e}from"./slidev/play-e0bXIG9b.js";export{e as appendToSlide};
